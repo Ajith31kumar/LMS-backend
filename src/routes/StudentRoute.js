@@ -37,9 +37,11 @@ router.get('/getallstudent', async (req, res) => {
 router.post('/student_login', async (req, res) => {
     try {
       const { email, password } = req.body;
+      // console.log("email,password");
   
       // Find the student by email
       const student = await Student.findOne({ email });
+      console.log(student,email,password);
   
       // Check if the student exists and the password is correct
       if (student && student.password === password) {
