@@ -1,25 +1,26 @@
-import { Router } from 'express';
-import Course from '../models/course.models.js';
-import Teacher from '../models/teacher.models.js';
+import { Router } from "express";
+import Course from "../models/course.models.js";
+import Teacher from "../models/teacher.models.js";
 
 const router = Router();
 
-
 // Route to create a new course
-router.post('/create-course/:teacherId', async (req, res) => {
+router.post("/create-course/:teacherId", async (req, res) => {
   try {
     const { teacherId } = req.params;
     const { title, description, coverphoto } = req.body;
 
     // Validate input data
     if (!title || !description) {
-      return res.status(400).json({ error: 'Title and description are required' });
+      return res
+        .status(400)
+        .json({ error: "Title and description are required" });
     }
 
     // Check if the teacher exists
     const teacher = await Teacher.findById(teacherId);
     if (!teacher) {
-      return res.status(404).json({ error: 'Teacher not found' });
+      return res.status(404).json({ error: "Teacher not found" });
     }
 
     // Create a new course
@@ -42,9 +43,8 @@ router.post('/create-course/:teacherId', async (req, res) => {
   }
 });
 
-
 // Route to get course details
-router.get('/getCourseDetails/:courseId', async (req, res) => {
+router.get("/getCourseDetails/:courseId", async (req, res) => {
   try {
     const { courseId } = req.params;
     const courseDetails = await Course.findById(courseId);
@@ -56,14 +56,16 @@ router.get('/getCourseDetails/:courseId', async (req, res) => {
 });
 
 // Route to add video details to a course
-router.post('/addVideo/:courseId', async (req, res) => {
+router.post("/addVideo/:courseId", async (req, res) => {
   try {
     const { courseId } = req.params;
     const { title, url } = req.body;
 
     // Validate input data
     if (!title || !url) {
-      return res.status(400).json({ error: 'Title and URL are required for the video' });
+      return res
+        .status(400)
+        .json({ error: "Title and URL are required for the video" });
     }
 
     // Find the course by courseId and update the videos array
@@ -80,8 +82,7 @@ router.post('/addVideo/:courseId', async (req, res) => {
   }
 });
 
-
-router.get('/getallcourses', async (req, res) => {
+router.get("/getallcourses", async (req, res) => {
   try {
     const showAll = await Course.find();
     res.status(200).json(showAll);
